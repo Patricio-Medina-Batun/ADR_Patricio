@@ -45,6 +45,20 @@ Por el momento, **el sistema correrá en `localhost`**. Sin embargo, esta decisi
 - **Acoplamiento de la Interfaz (Trade-off técnico):** Al renderizar el HTML desde el servidor y no enviar JSON, sacrifico la posibilidad de conectar fácilmente una aplicación móvil nativa (iOS/Android) en el futuro. Si el taller requiere una app móvil nativa más adelante, tendré que refactorizar los controladores para exponer APIs.
 - **Carga de procesamiento en el servidor (Trade-off de infraestructura):** El servidor no solo procesará la lógica de las refacciones, sino que también consumirá recursos ensamblando las páginas de la interfaz gráfica antes de enviarlas al cliente.
 
+
+## Estrategia de Acceso a Datos en Producción
+
+**Pregunta a resolver:** ¿Cómo va a acceder el sistema a sus datos cuando esté en producción? ¿Se usarán archivos JSON en EC2 o se migrará a una base de datos?
+
+### Decisión
+Para cuando subamos el proyecto a producción, decidí que lo mejor es **usar una Base de Datos Relacional (como PostgreSQL)** y cambiar por completo de andar guardando la información en archivos de texto JSON. 
+
+Los datos se van a conectar directo a mis controladores a través de los modelos usando un ORM. Para no complicarme ni salirme del presupuesto en esta primera fase de la materia, voy a instalar la base de datos en la misma máquina virtual (como una instancia en AWS EC2) donde va a estar corriendo la página web.
+
+### ¿Por qué?
+
+**Para que no se rompan las relaciones (Integridad):** En el taller tenemos clientes, que tienen coches, que tienen órdenes de trabajo y usan refacciones. Todo está súper conectado. Si trato de manejar todas esas relaciones leyendo y escribiendo archivos JSON, se va a volver un desastre rápido y puedo dejar datos sueltos o huérfanos. Una base de datos relacional ya hace ese trabajo por mí y me asegura que la información cuadre.
+
 ## Declaración de Uso de IA
 
 Para la elaboración de este documento y la generación visual de los diagramas, se utilizó asistencia de Inteligencia Artificial. Su uso se limitó de manera estricta a:
@@ -102,7 +116,7 @@ flowchart TD
         end
     end
 
-    database["Base de Datos Relacional<br><font size=2>[PostgreSQL / Servidor Local]</font>"]:::database
+    database["Base de Datos Relacional<br><font size=2>[PostgreSQL / Instancia EC2]</font>"]:::database
 
     mecanico --> |"Petición HTTP"| ctrl_usuarios & ctrl_vehiculos & ctrl_ordenes
     cliente --> |"Petición HTTP"| ctrl_usuarios & ctrl_vehiculos & ctrl_ordenes
