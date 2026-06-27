@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "TallerApp.Application": {
+      "commandName": "Project"
+    }
+  }
+}

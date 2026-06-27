@@ -1,0 +1,33 @@
+﻿<div class="col-12 mb-3 text-end">
+    <a href="#" class="btn btn-outline-secondary btn-sm">
+        <i class="bi bi-list-ul"></i> Ver en formato tabla
+    </a>
+</div>
+
+@foreach (var orden in Model)
+{
+    <div class="col-md-4 mb-4">
+        <div class="card shadow-sm h-100 border-0 border-start border-primary border-4 position-relative">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start">
+                    <h5 class="card-title fw-bold">Placas: @orden.Placas</h5>
+                    @if (orden.Estado == "En Revisión")
+                    {
+                        <span class="badge bg-warning text-dark">@orden.Estado</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-success">@orden.Estado</span>
+                    }
+                </div>
+                <h6 class="card-subtitle mb-3 text-muted"><i class="bi bi-calendar-event"></i> @orden.FechaIngreso.ToString("dd/MM/yyyy HH:mm")</h6>
+                <p class="card-text small text-truncate"><strong>Falla:</strong> @orden.FallaReportada</p>
+            </div>
+            <div class="card-footer bg-white border-0 text-end pb-3">
+                <button class="btn btn-sm btn-outline-primary">
+                    <i class="bi bi-folder2-open"></i> Abrir Expediente
+                </button>
+            </div>
+        </div>
+    </div>
+}

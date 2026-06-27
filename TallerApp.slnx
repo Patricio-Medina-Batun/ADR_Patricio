@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="TallerApp.Application/TallerApp.Application.csproj" />
+  <Project Path="TallerApp.Domain/TallerApp.Domain.csproj" />
+  <Project Path="TallerApp.Infrastructure/TallerApp.Infrastructure.csproj" />
+  <Project Path="TallerApp.Web/TallerApp.Web.csproj" />
+</Solution>
